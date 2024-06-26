@@ -1,0 +1,25 @@
+version: '4'
+##This specifies the version of the Docker Compose file format.
+##Version 4 is compatible with Docker Engine 18.06.0 and above.
+services:
+  ##Docker Compose allows you to define and run multi-container Docker applications
+  ##In this case, only one service, mongo, is defined.
+  ## Mongo Docker Compose Config
+  mongo:
+    ##This specifies the name of the Docker container that will be created.
+    container_name: mongo
+    ##This specifies the Docker image to use for this service. In this case, it's using a specific version of MongoDB (4.4.14-rc0-focal). The focal
+    ##tag indicates it's based on the Ubuntu 20.04 (Focal Fossa) base image.
+    image: mongo:4.4.14-rc0-focal
+   #This policy ensures that the MongoDB container is always restarted if it stops.
+    restart: always
+   #This maps port 27017 on the host machine to port 27017 on the MongoDB container.
+   #This makes port 27017 accessible to other services within the same Docker network.
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    environment:
+          - MONGO_INITDB_DATABASE=product-service # Sets the initial database name.
+    volumes:
+      - ./mongo-data:/data/db
